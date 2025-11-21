@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batipéi 974 - L'Excellence du BTP à la Réunion</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        // Palette Pro et Sophistiquée
+                        brand: {
+                            dark: '#0f172a',     /* Bleu nuit profond (Slate 900) */
+                            primary: '#1e40af',  /* Bleu indigo corporate (Blue 800) */
+                            primaryLight: '#3b82f6', /* Bleu plus clair pour les accents */
+                            accent: '#ea580c',   /* Orange brûlé (Orange 600) - plus pro que le jaune */
+                            success: '#059669',  /* Vert émeraude (Emerald 600) */
+                            bg: '#f8fafc',       /* Fond très léger gris-bleu (Slate 50) */
+                        }
+                    },
+                    boxShadow: {
+                        'pro': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)', /* Ombre très douce */
+                        'card-hover': '0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .hero-bg {
+            background-image: linear-gradient(to bottom right, rgba(15, 23, 42, 0.95), rgba(30, 64, 175, 0.85)), url('https://images.unsplash.com/photo-1621905251189-08b45d6a269e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+        /* Motif subtil pour les zones premium */
+        .premium-pattern {
+            background-color: #0f172a;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%231e40af' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        .fade-enter { animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Toast Amélioré */
+        #toast { visibility: hidden; min-width: 320px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); color: #0f172a; border-left: 4px solid #1e40af; border-radius: 8px; padding: 16px 20px; position: fixed; z-index: 100; left: 50%; bottom: 30px; transform: translateX(-50%); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); font-weight: 500; }
+        #toast.show { visibility: visible; animation: slideUpFade 0.4s ease-out forwards, fadeOutDown 0.4s ease-in 3s forwards; }
+        @keyframes slideUpFade { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+        @keyframes fadeOutDown { from {bottom: 30px; opacity: 1;} to {bottom: -20px; opacity: 0;} }
+
+        /* Inputs Focus Ring customisé */
+        .input-pro:focus { @apply outline-none ring-2 ring-brand-primary ring-offset-2 border-transparent; }
+    </style>
+</head>
+<body class="bg-brand-bg text-gray-800 font-sans antialiased flex flex-col min-h-screen">
+
+    <div id="toast" class="flex items-center gap-4">
+        <div id="toast-icon"><i class="fa-solid fa-circle-check text-brand-success text-xl"></i></div>
+        <span id="toast-message">Notification</span>
+    </div>
+
+    <nav class="bg-white/80 backdrop-blur-md border-b border-gray-100 sticky top-0 z-40 transition-all duration-300" id="main-nav">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex items-center cursor-pointer group" onclick="location.reload()">
+                    <div class="bg-gradient-to-br from-brand-primary to-brand-primaryLight h-11 w-11 rounded-xl flex items-center justify-center text-white font-black text-xl shadow-lg shadow-blue-500/20 transition transform group-hover:scale-105">B</div>
+                    <div class="ml-3 relative bottom-0.5">
+                        <span class="block font-extrabold text-2xl text-brand-dark tracking-tight leading-none">Bati<span class="text-brand-primary">Péi</span></span>
+                    </div>
+                    <span class="ml-2 bg-brand-accent/10 text-brand-accent text-[0.65rem] font-bold px-2 py-0.5 rounded-full tracking-wider uppercase">La Réunion</span>
+                </div>
+                
+                <div class="flex items-center gap-8">
+                    
+                    <div id="nav-guest" class="flex items-center gap-4">
+                        <button onclick="openAuthModal('login')" class="text-gray-600 font-semibold hover:text-brand-primary transition">Se connecter</button>
+                        <button onclick="openAuthModal('register')" class="hidden md:inline-flex bg-brand-dark text-white px-6 py-3 rounded-xl font-bold hover:bg-brand-primary transition shadow-lg shadow-gray-900/10 active:scale-95">
+                            Commencer
+                        </button>
+                    </div>
+
+                    <div id="nav-logged" class="hidden items-center gap-6 divide-x divide-gray-200">
+                        <div class="hidden md:block pr-6">
+                             <div id="status-badge" class="bg-gray-100 pl-2 pr-3 py-1.5 rounded-full border border-gray-200 flex items-center gap-2">
+                                <div class="h-2.5 w-2.5 rounded-full bg-gray-400 shadow-sm" id="status-dot"></div>
+                                <span class="text-xs font-bold text-gray-600 uppercase tracking-wider" id="status-text">Standard</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-3 cursor-pointer pl-6 group" onclick="openProfileModal()">
+                            <div class="text-right hidden lg:block">
+                                <div id="user-name-display" class="text-sm font-bold text-gray-900 group-hover:text-brand-primary transition">Ivan Hoarau</div>
+                                <div id="user-role-display" class="text-xs text-gray-500 font-medium">Chargement...</div>
+                            </div>
+                            <div class="h-11 w-11 rounded-full bg-brand-primary p-0.5 shadow-md transition group-hover:shadow-lg ring-2 ring-transparent group-hover:ring-brand-primaryLight ring-offset-2">
+                                <img id="user-avatar-display" src="https://www.w3schools.com/howto/img_avatar.png" class="h-full w-full rounded-full object-cover border-2 border-white">
+                            </div>
+                        </div>
+                        
+                        <button onclick="logout()" class="text-gray-400 hover:text-red-600 pl-6 transition active:scale-90"><i class="fa-solid fa-power-off text-lg"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main id="app-container" class="flex-grow w-full relative">
+        
+        <section id="page-home" class="fade-enter block">
+            <div class="hero-bg text-white py-28 md:py-36 relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
+                    <div class="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-brand-primaryLight/20 rounded-full blur-3xl animate-pulse"></div>
+                    <div class="absolute bottom-[10%] right-[10%] w-[30%] h-[30%] bg-brand-accent/20 rounded-full blur-3xl"></div>
+                </div>
+
+                <div class="max-w-5xl mx-auto px-4 text-center relative z-10">
+                    <div class="inline-block bg-white/10 backdrop-blur-md border border-white/20 text-blue-100 text-sm font-bold px-4 py-2 rounded-full uppercase tracking-wider mb-8 shadow-xl">
+                        <i class="fa-solid fa-bolt text-brand-accent mr-2"></i> La nouvelle référence BTP 974
+                    </div>
+                    <h1 class="text-5xl md:text-7xl font-black mb-8 tracking-tight leading-tight drop-shadow-lg">
+                        La confiance, <br> ça se construit <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-brand-accent">mutuellement.</span>
+                    </h1>
+                    <p class="text-xl md:text-2xl text-blue-50/90 mb-12 max-w-3xl mx-auto font-medium leading-relaxed drop-shadow">
+                        Sécurisez vos chantiers. La première plateforme où Artisans et Particuliers se notent après travaux. Fini les impayés, fini le travail bâclé.
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row justify-center gap-5">
+                        <button onclick="openAuthModal('register', 'particulier')" class="group bg-white text-brand-dark hover:bg-blue-50 px-8 py-4 rounded-2xl font-bold text-lg shadow-xl transition-all transform hover:-translate-y-1 flex items-center justify-center gap-3">
+                            <i class="fa-solid fa-house-user text-brand-primary text-xl group-hover:scale-110 transition"></i> Je suis Particulier
+                        </button>
+                        <button onclick="openAuthModal('register', 'pro')" class="group bg-gradient-to-r from-brand-primary to-brand-primaryLight text-white hover:to-brand-primary px-8 py-4 rounded-2xl font-bold text-lg shadow-xl shadow-blue-900/30 transition-all transform hover:-translate-y-1 flex items-center justify-center gap-3">
+                            <i class="fa-solid fa-helmet-safety text-xl group-hover:scale-110 transition"></i> Je suis une Entreprise
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white py-12 border-b border-gray-100 shadow-sm relative z-20">
+                <div class="max-w-7xl mx-auto px-4 flex flex-wrap justify-center md:justify-between gap-8 md:gap-16 text-gray-500 font-bold text-sm md:text-base uppercase tracking-widest">
+                    <div class="flex items-center gap-3"><i class="fa-solid fa-shield-alt text-2xl text-brand-primary/70"></i> Assurance Décennale</div>
+                    <div class="flex items-center gap-3"><i class="fa-solid fa-file-contract text-2xl text-brand-primary/70"></i> K-Bis Vérifié</div>
+                    <div class="flex items-center gap-3"><i class="fa-solid fa-star-half-stroke text-2xl text-brand-primary/70"></i> Notation Double Sens</div>
+                    <div class="flex items-center gap-3"><i class="fa-solid fa-lock text-2xl text-brand-primary/70"></i> Paiements Sécurisés</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-dashboard-client" class="fade-enter hidden bg-brand-bg py-12 md:py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-4">
+                    <div>
+                        <h2 class="text-3xl md:text-4xl font-black text-brand-dark tracking-tight">Mes Projets</h2>
+                        <p class="text-gray-500 text-lg mt-2 font-medium">Gérez vos demandes et trouvez les meilleurs artisans.</p>
+                    </div>
+                    <button onclick="openPostJobModal()" class="bg-brand-primary text-white px-8 py-4 rounded-xl font-bold hover:bg-blue-800 shadow-lg shadow-blue-900/20 transition flex items-center gap-3 active:scale-95">
+                        <i class="fa-solid fa-plus-circle text-lg"></i> Nouvelle demande
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <div class="lg:col-span-4 space-y-8 order-2 lg:order-1">
+                        <div class="bg-white rounded-3xl shadow-pro border border-gray-100/50 overflow-hidden relative">
+                            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-green-400 to-brand-success"></div>
+                            <div class="p-8 text-center">
+                                <div class="text-sm text-gray-500 font-bold uppercase tracking-wider mb-4">Ma Réputation Client</div>
+                                <div class="inline-block relative mb-4">
+                                     <svg class="w-32 h-32 transform -rotate-90" viewBox="0 0 100 100">
+                                        <circle cx="50" cy="50" r="45" fill="none" stroke="#e2e8f0" stroke-width="8"/>
+                                        <circle cx="50" cy="50" r="45" fill="none" stroke="#059669" stroke-width="8" stroke-dasharray="282.7" stroke-dashoffset="11.3" stroke-linecap="round"/>
+                                    </svg>
+                                    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
+                                         <div class="text-4xl font-black text-brand-dark">4.8</div>
+                                         <div class="text-gray-400 text-sm font-bold">/ 5.0</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex flex-wrap justify-center gap-2">
+                                    <span class="bg-green-50 text-green-700 border border-green-100 px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide flex items-center"><i class="fa-solid fa-check-circle mr-1.5"></i> Bon Payeur</span>
+                                    <span class="bg-blue-50 text-blue-700 border border-blue-100 px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide flex items-center"><i class="fa-solid fa-thumbs-up mr-1.5"></i> Respectueux</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                         <div class="bg-white p-8 rounded-3xl shadow-pro border border-gray-100/50">
+                            <h3 class="font-bold text-lg text-brand-dark mb-6 flex items-center"><i class="fa-solid fa-search mr-3 text-brand-primary"></i> Trouver un artisan</h3>
+                            <div class="space-y-5">
+                                <div class="relative">
+                                    <i class="fa-solid fa-screwdriver-wrench absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                    <select class="w-full pl-12 p-4 bg-gray-50 rounded-xl border-0 ring-1 ring-gray-200 focus:ring-2 focus:ring-brand-primary transition font-medium text-gray-700 appearance-none"><option>Climatisation / Froid</option><option>Plomberie</option><option>Électricité</option><option>Maçonnerie</option></select>
+                                </div>
+                                 <div class="relative">
+                                    <i class="fa-solid fa-map-marker-alt absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                    <select class="w-full pl-12 p-4 bg-gray-50 rounded-xl border-0 ring-1 ring-gray-200 focus:ring-2 focus:ring-brand-primary transition font-medium text-gray-700 appearance-none"><option>Toute l'île</option><option>Saint-Denis (Nord)</option><option>Saint-Pierre (Sud)</option><option>Saint-Gilles (Ouest)</option></select>
+                                </div>
+                                <button class="w-full bg-brand-dark text-white py-4 rounded-xl font-bold hover:bg-gray-900 transition shadow-lg">Lancer la recherche</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-8 space-y-8 order-1 lg:order-2">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-bold text-xl text-brand-dark">Artisans Elite recommandés</h3>
+                            <a href="#" class="text-brand-primary font-bold text-sm hover:underline">Voir tout</a>
+                        </div>
+                        
+                        <div class="bg-white rounded-3xl shadow-pro hover:shadow-card-hover transition-all duration-300 border border-gray-100/50 overflow-hidden group">
+                            <div class="p-8 flex flex-col md:flex-row gap-8 relative">
+                                <div class="absolute top-0 right-0 bg-gradient-to-r from-brand-accent to-orange-500 text-white text-xs font-bold px-4 py-1.5 rounded-bl-2xl shadow-sm uppercase tracking-wider">
+                                    <i class="fa-solid fa-crown mr-1"></i> Top Pro 974
+                                </div>
+
+                                <div class="md:w-1/3 flex flex-col items-center text-center md:border-r md:border-gray-100 md:pr-8">
+                                    <div class="relative mb-4">
+                                        <div class="h-28 w-28 rounded-full p-1 bg-gradient-to-br from-brand-primary to-brand-accent">
+                                            <img src="https://randomuser.me/api/portraits/men/32.jpg" class="h-full w-full rounded-full object-cover border-4 border-white">
+                                        </div>
+                                        <div class="absolute bottom-0 right-0 bg-green-500 h-5 w-5 rounded-full border-2 border-white" title="En ligne"></div>
+                                    </div>
+                                    <h4 class="text-xl font-black text-brand-dark">SFE Réunion Pro</h4>
+                                    <p class="text-sm font-bold text-gray-500 mb-3">St-Denis • Depuis 2018</p>
+                                    <div class="flex flex-col items-center gap-1 bg-brand-bg p-3 rounded-xl w-full">
+                                        <div class="flex text-brand-accent text-lg"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                                        <span class="text-sm font-bold text-gray-700">4.9 / 5 <span class="text-gray-400 font-medium">(42 avis)</span></span>
+                                    </div>
+                                </div>
+                                <div class="md:w-2/3 flex flex-col justify-between py-2">
+                                    <div>
+                                        <div class="flex flex-wrap gap-2 mb-4">
+                                            <span class="bg-blue-50 text-brand-primary text-xs font-bold px-3 py-1 rounded-full uppercase"><i class="fa-solid fa-snowflake mr-1"></i> Froid / Clim</span>
+                                            <span class="bg-green-50 text-green-700 text-xs font-bold px-3 py-1 rounded-full uppercase"><i class="fa-solid fa-check-shield mr-1"></i> Kbis Vérifié</span>
+                                        </div>
+                                        <h5 class="font-bold text-lg text-brand-dark mb-2">Description</h5>
+                                        <p class="text-gray-600 leading-relaxed">Spécialiste certifié pour l'installation, le dépannage et la maintenance de tous systèmes fluidiques (VRV, Splits). Intervention rapide et soignée sur le secteur Nord/Est. Devis gratuit sous 24h.</p>
+                                    </div>
+                                    <div class="flex gap-4 mt-8">
+                                        <button class="flex-1 bg-brand-primary text-white py-4 rounded-xl font-bold hover:bg-blue-800 transition shadow-md flex items-center justify-center gap-2">
+                                            <i class="fa-solid fa-paper-plane"></i> Demander un devis
+                                        </button>
+                                        <button class="px-5 rounded-xl border-2 border-gray-200 hover:border-brand-accent hover:text-brand-accent text-gray-400 transition">
+                                            <i class="fa-solid fa-heart text-xl"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-dashboard-pro" class="fade-enter hidden bg-brand-bg py-12 md:py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div id="pro-upgrade-banner" class="premium-pattern rounded-3xl p-10 text-white flex flex-col lg:flex-row items-center justify-between mb-12 shadow-2xl relative overflow-hidden border-t border-blue-400/20">
+                    <div class="absolute top-0 right-0 -mt-20 -mr-20 w-80 h-80 bg-brand-accent/30 rounded-full blur-3xl pointer-events-none"></div>
+                    
+                    <div class="mb-8 lg:mb-0 relative z-10 text-center lg:text-left">
+                        <h2 class="text-3xl md:text-4xl font-black mb-4 leading-tight">
+                            <span class="bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-200">Accédez à l'élite des clients.</span>
+                        </h2>
+                        <p class="text-blue-100 text-lg max-w-xl font-medium leading-relaxed">Débloquez les coordonnées instantanément et visualisez la note de fiabilité financière avant d'accepter un chantier.</p>
+                        <div class="flex gap-6 mt-8 justify-center lg:justify-start">
+                             <div class="flex items-center gap-3">
+                                <div class="bg-white/10 p-3 rounded-xl"><i class="fa-solid fa-eye text-brand-accent text-xl"></i></div>
+                                <div class="text-left"><div class="font-bold">Voir les contacts</div><div class="text-xs text-blue-200">Illimité</div></div>
+                            </div>
+                             <div class="flex items-center gap-3">
+                                <div class="bg-white/10 p-3 rounded-xl"><i class="fa-solid fa-chart-line text-brand-success text-xl"></i></div>
+                                <div class="text-left"><div class="font-bold">Notes Clients</div><div class="text-xs text-blue-200">Fiabilité</div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center relative z-10">
+                        <div class="text-center mb-6">
+                            <div class="flex items-start justify-center">
+                                <span class="text-3xl font-bold mt-2">€</span>
+                                <span class="text-6xl font-black tracking-tighter">9.99</span>
+                            </div>
+                            <div class="text-sm text-blue-200 font-bold uppercase tracking-wider">/ mois sans engagement</div>
+                        </div>
+                        <button onclick="openPaymentModal()" class="group bg-gradient-to-r from-brand-accent to-orange-600 text-white px-10 py-5 rounded-2xl font-black text-lg hover:shadow-2xl hover:shadow-orange-500/40 transition-all transform hover:scale-105 flex items-center gap-3">
+                            <i class="fa-solid fa-rocket text-2xl group-hover:animate-pulse"></i> Devenir Premium
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center mb-8">
+                    <h3 class="text-2xl font-bold text-brand-dark">Dernières opportunités qualifiées</h3>
+                     <div class="flex items-center gap-2 text-sm font-bold text-gray-500">
+                        <i class="fa-solid fa-filter"></i> Filtrer
+                    </div>
+                </div>
+                
+                <div class="grid gap-8" id="leads-container">
+                    
+                    <div class="bg-white rounded-3xl shadow-pro hover:shadow-card-hover transition-all border border-gray-100/50 relative overflow-hidden group">
+                         <div class="absolute left-0 top-0 h-full w-2 bg-brand-primary"></div>
+
+                        <div class="p-8 pl-10">
+                            <div class="flex flex-col md:flex-row justify-between items-start mb-6 gap-6">
+                                <div class="flex gap-6">
+                                    <div class="h-20 w-20 rounded-2xl bg-blue-50 flex items-center justify-center text-brand-primary text-3xl shadow-sm border border-blue-100">
+                                        <i class="fa-solid fa-snowflake"></i>
+                                    </div>
+                                    <div>
+                                        <div class="flex gap-2 mb-2">
+                                            <span class="bg-blue-100 text-brand-primary text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Nouveau</span>
+                                             <span class="bg-gray-100 text-gray-600 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider"><i class="fa-regular fa-clock mr-1"></i> 2h</span>
+                                        </div>
+                                        <h4 class="text-2xl font-black text-brand-dark mb-2">Installation VRV - Plateau Bureaux</h4>
+                                        <div class="flex flex-wrap items-center gap-4 text-sm font-medium text-gray-500">
+                                            <span class="flex items-center gap-1.5"><i class="fa-solid fa-location-dot text-brand-accent"></i> Sainte-Clotilde (Nord)</span>
+                                            <span class="flex items-center gap-1.5 text-brand-success font-bold bg-green-50 px-2 py-0.5 rounded"><i class="fa-solid fa-coins"></i> Budget: > 5000€</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-brand-bg p-5 rounded-2xl border border-gray-200 flex items-center gap-4 shadow-sm">
+                                    <div class="text-right">
+                                        <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Fiabilité Client</div>
+                                        <div class="flex text-brand-accent text-sm"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                                    </div>
+                                    <div class="h-16 w-16 rounded-xl bg-brand-dark text-white flex flex-col items-center justify-center font-black shadow-lg relative overflow-hidden">
+                                        <div class="absolute inset-0 bg-gradient-to-br from-transparent to-brand-primary/50"></div>
+                                        <span class="text-2xl relative z-10">5.0</span>
+                                        <span class="text-[0.6rem] uppercase relative z-10">Excellent</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-gray-50 p-6 rounded-2xl border border-gray-100 mb-8 relative">
+                                <i class="fa-solid fa-quote-left text-4xl text-gray-200 absolute top-4 left-4 z-0"></i>
+                                <p class="text-gray-700 leading-relaxed relative z-10 font-medium pl-8">
+                                    "Bonjour, je cherche une entreprise certifiée pour l'installation complète d'un système VRV pour un local de 150m2. Plans disponibles. Besoin d'une facture avec TVA pour dossier de subvention. Paiement comptant à la réception."
+                                </p>
+                            </div>
+                            
+                            <div class="border-t border-gray-100 pt-6 flex justify-between items-center">
+                                <div id="lead-locked-1" class="flex items-center justify-between w-full bg-gray-50 p-4 rounded-2xl border border-gray-200/50">
+                                    <div class="flex items-center gap-4 text-gray-500 font-medium">
+                                        <div class="bg-gray-200 h-12 w-12 rounded-xl flex items-center justify-center"><i class="fa-solid fa-lock text-xl"></i></div>
+                                        <span>Coordonnées masquées aux membres gratuits.</span>
+                                    </div>
+                                    <button onclick="handleUnlockClick(1)" class="group bg-brand-dark text-white px-8 py-4 rounded-xl font-bold text-sm hover:bg-brand-primary transition shadow-lg flex items-center gap-3">
+                                        <i class="fa-solid fa-unlock-keyhole text-lg group-hover:rotate-12 transition"></i> Débloquer le contact
+                                    </button>
+                                </div>
+
+                                <div id="lead-unlocked-1" class="hidden items-center justify-between w-full animate-fade-enter bg-green-50 p-4 rounded-2xl border border-green-200">
+                                     <div class="flex items-center gap-4">
+                                        <div class="bg-green-200 text-green-700 h-12 w-12 rounded-xl flex items-center justify-center shadow-sm"><i class="fa-solid fa-user-check text-xl"></i></div>
+                                        <div>
+                                            <div class="font-black text-2xl text-brand-dark tracking-tight">0692 88 77 66</div>
+                                            <div class="text-sm text-gray-600 font-medium">M. Payet Jean (client.pro@reunion.fr)</div>
+                                        </div>
+                                    </div>
+                                    <a href="tel:0692887766" class="bg-brand-success text-white px-8 py-4 rounded-xl font-bold text-sm hover:bg-green-700 transition shadow-lg flex items-center gap-3 hover:-translate-y-0.5 transform">
+                                        <i class="fa-solid fa-phone-volume text-lg animate-pulse"></i> Appeler maintenant
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-brand-dark text-gray-400 pt-20 pb-10 mt-auto relative overflow-hidden">
+        <div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image: url('data:image/svg+xml,%3Csvg width=\'20\' height=\'20\' viewBox=\'0 0 20 20\' xmlns=\'0 0 20 20\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\' fill-rule=\'evenodd\'%3E%3Ccircle cx=\'3\' cy=\'3\' r=\'3\'/%3E%3Ccircle cx=\'13\' cy=\'13\' r=\'3\'/%3E%3C/g%3E%3C/svg%3E');"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-12 mb-16">
+                <div class="md:col-span-5">
+                    <div class="flex items-center mb-6">
+                        <div class="bg-brand-primary h-10 w-10 rounded-xl flex items-center justify-center text-white font-black text-xl">B</div>
+                        <span class="ml-3 block font-extrabold text-3xl text-white tracking-tight">Bati<span class="text-brand-primaryLight">Péi</span> 974</span>
+                    </div>
+                    <p class="text-lg leading-relaxed mb-8 text-gray-300 font-medium max-w-md">
+                        La nouvelle norme de confiance pour le bâtiment à La Réunion. Nous connectons les meilleurs artisans avec des clients fiables grâce à la transparence des notations.
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="#" class="bg-white/10 h-12 w-12 flex items-center justify-center rounded-xl hover:bg-brand-primary transition text-white"><i class="fa-brands fa-facebook-f text-xl"></i></a>
+                        <a href="#" class="bg-white/10 h-12 w-12 flex items-center justify-center rounded-xl hover:bg-brand-primary transition text-white"><i class="fa-brands fa-linkedin-in text-xl"></i></a>
+                        <a href="#" class="bg-white/10 h-12 w-12 flex items-center justify-center rounded-xl hover:bg-brand-primary transition text-white"><i class="fa-brands fa-instagram text-xl"></i></a>
+                    </div>
+                </div>
+                <div class="md:col-span-3">
+                    <h4 class="font-bold text-white text-lg mb-6 uppercase tracking-wider">Entreprise</h4>
+                    <ul class="space-y-4 font-medium">
+                        <li><a href="#" class="hover:text-white transition flex items-center gap-2"><i class="fa-solid fa-chevron-right text-xs text-brand-primaryLight"></i> À propos</a></li>
+                        <li><a href="#" class="hover:text-white transition flex items-center gap-2"><i class="fa-solid fa-chevron-right text-xs text-brand-primaryLight"></i> Tarifs Pro</a></li>
+                        <li><a href="#" class="hover:text-white transition flex items-center gap-2"><i class="fa-solid fa-chevron-right text-xs text-brand-primaryLight"></i> Blog BTP 974</a></li>
+                    </ul>
+                </div>
+                <div class="md:col-span-4">
+                    <h4 class="font-bold text-white text-lg mb-6 uppercase tracking-wider">Légal & Contact</h4>
+                    <ul class="space-y-4 font-medium mb-8">
+                         <li><a href="#" class="hover:text-white transition flex items-center gap-2"><i class="fa-solid fa-chevron-right text-xs text-brand-primaryLight"></i> Mentions Légales</a></li>
+                         <li><a href="#" class="hover:text-white transition flex items-center gap-2"><i class="fa-solid fa-chevron-right text-xs text-brand-primaryLight"></i> Politique de Confidentialité</a></li>
+                    </ul>
+                    <div class="bg-white/5 p-6 rounded-2xl border border-white/10">
+                        <div class="flex items-center gap-3 mb-3">
+                            <i class="fa-solid fa-envelope text-brand-primaryLight"></i>
+                            <span class="font-bold text-white">contact.hoarauivan@gmail.com</span>
+                        </div>
+                        <div class="text-sm font-medium">
+                            Développé par <strong class="text-white">Hoarau Ivan</strong> - BTS SFE
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-white/10 pt-10 flex flex-col md:flex-row justify-between items-center text-sm font-medium">
+                <p>&copy; 2025 Batipéi 974. Tous droits réservés. Fait avec <i class="fa-solid fa-heart text-red-500 mx-1"></i> à La Réunion.</p>
+                <div class="flex gap-6 mt-4 md:mt-0">
+                    <span>Prototype WorldSkills</span>
+                    <span>Version 6.0 (Corporate)</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="modal-auth" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <div class="fixed inset-0 bg-brand-dark/90 backdrop-blur-sm transition-opacity" onclick="closeModal('modal-auth')"></div>
+        <div class="flex min-h-full items-center justify-center p-4 text-center">
+            <div class="relative transform overflow-hidden rounded-3xl bg-white text-left shadow-2xl transition-all sm:w-full sm:max-w-md animate-fade-in border border-gray-100">
+                <div class="bg-gray-50 px-8 py-6 border-b border-gray-100 flex items-center justify-between">
+                    <h3 class="text-xl font-black text-brand-dark" id="auth-title">Connexion</h3>
+                    <button onclick="closeModal('modal-auth')" class="bg-gray-200 h-8 w-8 rounded-full flex items-center justify-center text-gray-500 hover:bg-gray-300 transition"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                
+                <div class="p-8">
+                    <div class="flex bg-gray-100 p-1.5 rounded-xl mb-8">
+                        <button onclick="switchAuthTab('login')" id="tab-login" class="flex-1 py-3 rounded-lg font-bold text-brand-primary bg-white shadow-sm transition-all">Connexion</button>
+                        <button onclick="switchAuthTab('register')" id="tab-register" class="flex-1 py-3 rounded-lg font-bold text-gray-500 hover:text-gray-700 transition-all">Inscription</button>
+                    </div>
+
+                    <form id="form-login" onsubmit="handleLogin(event)" class="space-y-5">
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Email Pro / Perso</label>
+                            <div class="relative">
+                                <i class="fa-solid fa-envelope absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                <input type="email" value="ivan@demo.fr" class="input-pro w-full pl-12 p-4 bg-gray-50 rounded-xl border-0 ring-1 ring-gray-200 font-medium transition" placeholder="votre@email.com" required>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Mot de passe</label>
+                            <div class="relative">
+                                <i class="fa-solid fa-lock absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                <input type="password" value="password" class="input-pro w-full pl-12 p-4 bg-gray-50 rounded-xl border-0 ring-1 ring-gray-200 font-medium transition" placeholder="••••••••" required>
+                            </div>
+                            <div class="text-right mt-2">
+                                <a href="#" class="text-sm font-bold text-brand-primary hover:underline">Mot de passe oublié ?</a>
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full bg-brand-primary text-white font-bold py-4 rounded-xl hover:bg-blue-800 transition shadow-lg flex items-center justify-center gap-3 text-lg active:scale-95">
+                            Se connecter <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </form>
+
+                    <form id="form-register" onsubmit="handleRegister(event)" class="space-y-5 hidden">
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Vous êtes ?</label>
+                        <div class="grid grid-cols-2 gap-4 mb-6">
+                            <label class="cursor-pointer group">
+                                <input type="radio" name="role" value="client" class="peer sr-only" checked>
+                                <div class="p-4 rounded-xl border-2 border-gray-200 peer-checked:border-brand-primary peer-checked:bg-blue-50/50 text-center transition-all group-hover:border-brand-primaryLight">
+                                    <div class="bg-blue-100 h-12 w-12 rounded-full flex items-center justify-center mx-auto mb-3 peer-checked:bg-brand-primary peer-checked:text-white text-brand-primary transition-colors">
+                                        <i class="fa-solid fa-house-user text-2xl"></i>
+                                    </div>
+                                    <div class="font-bold text-brand-dark peer-checked:text-brand-primary">Particulier</div>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer group">
+                                <input type="radio" name="role" value="pro" class="peer sr-only">
+                                <div class="p-4 rounded-xl border-2 border-gray-200 peer-checked:border-brand-primary peer-checked:bg-blue-50/50 text-center transition-all group-hover:border-brand-primaryLight">
+                                     <div class="bg-blue-100 h-12 w-12 rounded-full flex items-center justify-center mx-auto mb-3 peer-checked:bg-brand-primary peer-checked:text-white text-brand-primary transition-colors">
+                                        <i class="fa-solid fa-helmet-safety text-2xl"></i>
+                                    </div>
+                                    <div class="font-bold text-brand-dark peer-checked:text-brand-primary">Entreprise</div>
+                                </div>
+                            </label>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-2">Prénom</label>
+                                <input type="text" id="reg-name" class="input-pro w-full p-4 bg-gray-50 rounded-xl border-0 ring-1 ring-gray-200 font-medium" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-2">Nom</label>
+                                <input type="text" class="input-pro w-full p-4 bg-gray-50 rounded-xl border-0 ring-1 ring-gray-200 font-medium" required>
+                            </div>
+                        </div>
+                        <div>
+                             <label class="block text-sm font-bold text-gray-700 mb-2">Email</label>
+                            <input type="email" class="input-pro w-full p-4 bg-gray-50 rounded-xl border-0 ring-1 ring-gray-200 font-medium" required>
+                        </div>
+                        <div>
+                             <label class="block text-sm font-bold text-gray-700 mb-2">Mot de passe</label>
+                            <input type="password" class="input-pro w-full p-4 bg-gray-50 rounded-xl border-0 ring-1 ring-gray-200 font-medium" required>
+                        </div>
+                        
+                        <button type="submit" class="w-full bg-brand-dark text-white font-bold py-4 rounded-xl hover:bg-gray-900 transition shadow-lg text-lg active:scale-95">Créer mon compte</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-profile" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <div class="fixed inset-0 bg-brand-dark/90 backdrop-blur-sm" onclick="closeModal('modal-profile')"></div>
+        <div class="flex min-h-full items-center justify-center p-4">
+            <div class="relative bg-white rounded-3xl shadow-2xl w-full max-w-md p-8 animate-fade-in border border-gray-100">
+                <div class="flex justify-between items-center mb-8">
+                    <h3 class="text-2xl font-black text-brand-dark">Mon Profil</h3>
+                     <button onclick="closeModal('modal-profile')" class="bg-gray-100 h-10 w-10 rounded-full flex items-center justify-center text-gray-500 hover:bg-gray-200 transition"><i class="fa-solid fa-xmark text-lg"></i></button>
+                </div>
+                
+                <form onsubmit="saveProfile(event)">
+                    <div class="flex flex-col items-center mb-8">
+                        <div class="relative group">
+                            <div class="h-32 w-32 rounded-full p-1 bg-gradient-to-br from-brand-primary to-brand-primaryLight shadow-xl">
+                                <img id="preview-avatar-edit" src="https://www.w3schools.com/howto/img_avatar.png" class="h-full w-full rounded-full object-cover border-4 border-white">
+                            </div>
+                            <label class="absolute bottom-1 right-1 bg-brand-dark text-white p-3 rounded-full cursor-pointer hover:bg-brand-primary transition shadow-lg group-hover:scale-110">
+                                <i class="fa-solid fa-camera"></i>
+                                <input type="file" accept="image/*" class="hidden" onchange="updateAvatarPreview(event)">
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="space-y-5">
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Nom complet</label>
+                            <input type="text" id="profile-name-input" value="Ivan Hoarau" class="input-pro w-full p-4 bg-gray-50 rounded-xl border-0 ring-1 ring-gray-200 font-bold text-brand-dark">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Email</label>
+                            <input type="email" value="contact.hoarauivan@gmail.com" class="w-full p-4 bg-gray-100 rounded-xl border-0 font-medium text-gray-500 cursor-not-allowed" disabled>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Téléphone</label>
+                            <input type="text" value="0693 46 61 19" class="input-pro w-full p-4 bg-gray-50 rounded-xl border-0 ring-1 ring-gray-200 font-medium">
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full bg-brand-success text-white font-bold py-4 rounded-xl mt-8 hover:bg-green-700 transition shadow-lg flex items-center justify-center gap-2 text-lg active:scale-95">
+                        <i class="fa-solid fa-check"></i> Enregistrer
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-payment" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <div class="fixed inset-0 bg-brand-dark/95 backdrop-blur-md" onclick="closeModal('modal-payment')"></div>
+        <div class="flex min-h-full items-center justify-center p-4">
+            <div class="relative bg-brand-bg rounded-3xl shadow-2xl w-full max-w-md overflow-hidden animate-fade-in border border-white/10">
+                <div class="bg-brand-dark p-8 text-white flex justify-between items-center relative overflow-hidden">
+                    <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+                    <div class="relative z-10">
+                        <h3 class="text-xl font-black flex items-center gap-3"><i class="fa-solid fa-shield-halved text-brand-accent text-2xl"></i> Paiement Sécurisé</h3>
+                        <p class="text-sm text-blue-200 font-medium mt-1">Activation immédiate de l'accès Premium</p>
+                    </div>
+                    <div class="text-right relative z-10">
+                        <div class="text-3xl font-black">9.99€</div>
+                        <div class="text-xs text-blue-200 uppercase font-bold">/ mois</div>
+                    </div>
+                </div>
+                
+                <div class="p-8">
+                    <div class="bg-gradient-to-br from-brand-primary to-blue-900 rounded-2xl p-6 text-white mb-8 shadow-2xl relative overflow-hidden transform transition hover:scale-105 duration-500">
+                        <div class="flex justify-between items-start mb-6">
+                            <img src="https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/chip.png" class="h-10 w-12 opacity-80">
+                            <i class="fa-brands fa-cc-visa text-4xl opacity-80"></i>
+                        </div>
+                        <div class="text-xl tracking-widest font-mono mb-6 text-shadow-sm">•••• •••• •••• 4242</div>
+                        <div class="flex justify-between">
+                            <div>
+                                <div class="text-[0.65rem] uppercase opacity-60 font-bold mb-1">Titulaire</div>
+                                <div class="font-bold tracking-wider" id="card-name-preview">IVAN HOARAU</div>
+                            </div>
+                             <div>
+                                <div class="text-[0.65rem] uppercase opacity-60 font-bold mb-1">Expire à</div>
+                                <div class="font-bold tracking-wider">12/28</div>
+                            </div>
+                        </div>
+                        <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-white opacity-10 rounded-full blur-2xl pointer-events-none"></div>
+                    </div>
+
+                    <form onsubmit="processPayment(event)" class="space-y-5">
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-wider">Numéro de carte</label>
+                            <div class="relative">
+                                <i class="fa-regular fa-credit-card absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                <input type="text" class="input-pro w-full pl-12 p-4 bg-white rounded-xl border-0 ring-1 ring-gray-200 font-medium" placeholder="0000 0000 0000 0000" required>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="flex-1">
+                                <label class="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-wider">Expiration</label>
+                                <input type="text" class="input-pro w-full p-4 bg-white rounded-xl border-0 ring-1 ring-gray-200 font-medium text-center" placeholder="MM/AA" required>
+                            </div>
+                            <div class="flex-1">
+                                <label class="block text-sm font-bold text-gray-700 mb-2 uppercase tracking-wider">CVC</label>
+                                <input type="text" class="input-pro w-full p-4 bg-white rounded-xl border-0 ring-1 ring-gray-200 font-medium text-center" placeholder="123" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full bg-brand-accent text-white font-black py-5 rounded-xl hover:bg-orange-700 transition flex justify-center items-center gap-3 shadow-lg text-lg uppercase tracking-wide active:scale-95 mt-6">
+                            <i class="fa-solid fa-lock"></i> Payer 9.99€
+                        </button>
+                        <div class="text-center mt-6 flex justify-center gap-4 text-gray-300 text-2xl opacity-50">
+                            <i class="fa-brands fa-cc-visa"></i>
+                            <i class="fa-brands fa-cc-mastercard"></i>
+                            <i class="fa-brands fa-cc-amex"></i>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-post-job" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <div class="fixed inset-0 bg-brand-dark/90 backdrop-blur-sm" onclick="closeModal('modal-post-job')"></div>
+        <div class="flex min-h-full items-center justify-center p-4">
+            <div class="relative bg-white rounded-3xl shadow-2xl w-full max-w-lg p-8 animate-fade-in border border-gray-100">
+                <div class="flex justify-between items-center mb-8">
+                    <div>
+                        <h3 class="text-2xl font-black text-brand-dark">Créer une demande</h3>
+                        <p class="text-gray-500 font-medium">Décrivez votre besoin aux artisans.</p>
+                    </div>
+                    <button onclick="closeModal('modal-post-job')" class="bg-gray-100 h-10 w-10 rounded-full flex items-center justify-center text-gray-500 hover:bg-gray-200 transition"><i class="fa-solid fa-xmark text-lg"></i></button>
+                </div>
+                <form onsubmit="submitJob(event)" class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Titre du projet</label>
+                        <input type="text" placeholder="Ex: Remplacement chauffe-eau solaire" class="input-pro w-full p-4 bg-gray-50 rounded-xl border-0 ring-1 ring-gray-200 font-bold text-brand-dark" required>
+                    </div>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Catégorie</label>
+                            <select class="input-pro w-full p-4 bg-gray-50 rounded-xl border-0 ring-1 ring-gray-200 font-medium appearance-none">
+                                <option>Climatisation</option>
+                                <option>Plomberie</option>
+                                <option>Électricité</option>
+                                <option>Gros Œuvre</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Budget estimé (€)</label>
+                            <input type="number" placeholder="Ex: 1500" class="input-pro w-full p-4 bg-gray-50 rounded-xl border-0 ring-1 ring-gray-200 font-medium">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Description détaillée</label>
+                        <textarea rows="4" class="input-pro w-full p-4 bg-gray-50 rounded-xl border-0 ring-1 ring-gray-200 font-medium resize-none" placeholder="Précisez les travaux, les contraintes d'accès, etc..."></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-brand-primary text-white font-bold py-4 rounded-xl mt-4 hover:bg-blue-800 transition shadow-lg flex items-center justify-center gap-2 text-lg active:scale-95">
+                        <i class="fa-solid fa-paper-plane"></i> Publier la demande
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // --- STATE MANAGEMENT ---
+        const state = {
+            user: null, // null or { name, role, avatar, isPremium }
+            currentPage: 'home'
+        };
+
+        // --- UI HELPERS ---
+        function show(id) { document.getElementById(id).classList.remove('hidden'); }
+        function hide(id) { document.getElementById(id).classList.add('hidden'); }
+        function showFlex(id) { document.getElementById(id).classList.remove('hidden'); document.getElementById(id).classList.add('flex'); }
+        
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toast-message');
+            const icon = document.getElementById('toast-icon');
+            
+            msg.innerText = message;
+            if(type === 'success') icon.innerHTML = '<i class="fa-solid fa-circle-check text-brand-success text-xl"></i>';
+            else icon.innerHTML = '<i class="fa-solid fa-circle-info text-brand-primary text-xl"></i>';
+
+            toast.className = "show flex items-center gap-4";
+            setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3500);
+        }
+
+        // --- NAVIGATION & PAGES ---
+        function navigateTo(pageId) {
+            ['page-home', 'page-dashboard-client', 'page-dashboard-pro'].forEach(id => hide(id));
+            show(pageId);
+            state.currentPage = pageId;
+            window.scrollTo(0,0);
+            // Changement de style de la navbar selon la page
+            const nav = document.getElementById('main-nav');
+            if(pageId === 'page-home') {
+                 nav.classList.remove('bg-white', 'border-gray-200');
+                 nav.classList.add('bg-white/80', 'backdrop-blur-md', 'border-gray-100');
+            } else {
+                 nav.classList.add('bg-white', 'border-gray-200');
+                 nav.classList.remove('bg-white/80', 'backdrop-blur-md', 'border-gray-100');
+            }
+        }
+
+        function updateNav() {
+            if (state.user) {
+                hide('nav-guest');
+                showFlex('nav-logged');
+                document.getElementById('user-name-display').innerText = state.user.name;
+                document.getElementById('user-avatar-display').src = state.user.avatar;
+                document.getElementById('profile-name-input').value = state.user.name;
+                document.getElementById('card-name-preview').innerText = state.user.name.toUpperCase();
+
+                if (state.user.role === 'pro') {
+                    document.getElementById('user-role-display').innerText = "Espace Entreprise";
+                    if (state.user.isPremium) {
+                        document.getElementById('status-badge').classList.replace('bg-gray-100', 'bg-brand-accent/10');
+                        document.getElementById('status-badge').classList.replace('border-gray-200', 'border-brand-accent/20');
+                        document.getElementById('status-text').innerText = "PREMIUM";
+                        document.getElementById('status-text').className = "text-xs font-black text-brand-accent uppercase tracking-wider";
+                        document.getElementById('status-dot').className = "h-2.5 w-2.5 rounded-full bg-brand-accent shadow-sm animate-pulse";
+                    } else {
+                         // Reset styles if needed
+                    }
+                } else {
+                    document.getElementById('user-role-display').innerText = "Particulier";
+                    hide('status-badge');
+                }
+            } else {
+                showFlex('nav-guest');
+                hide('nav-logged');
+            }
+        }
+
+        // --- AUTHENTICATION ---
+        function openAuthModal(tab, rolePreference = null) {
+            show('modal-auth');
+            switchAuthTab(tab);
+            if(rolePreference) {
+                const radios = document.getElementsByName('role');
+                for(r of radios) { if(r.value === rolePreference) r.checked = true; }
+            }
+        }
+
+        function closeModal(id) { hide(id); }
+
+        function switchAuthTab(tab) {
+            const btnLogin = document.getElementById('tab-login');
+            const btnReg = document.getElementById('tab-register');
+            const title = document.getElementById('auth-title');
+
+            if(tab === 'login') {
+                show('form-login'); hide('form-register');
+                title.innerText = "Connexion";
+                btnLogin.className = "flex-1 py-3 rounded-lg font-bold text-brand-primary bg-white shadow-sm transition-all";
+                btnReg.className = "flex-1 py-3 rounded-lg font-bold text-gray-500 hover:text-gray-700 transition-all";
+            } else {
+                hide('form-login'); show('form-register');
+                 title.innerText = "Créer un compte";
+                btnReg.className = "flex-1 py-3 rounded-lg font-bold text-brand-primary bg-white shadow-sm transition-all";
+                btnLogin.className = "flex-1 py-3 rounded-lg font-bold text-gray-500 hover:text-gray-700 transition-all";
+            }
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = e.target.querySelector('input[type="email"]').value;
+            const role = email.includes('client') ? 'client' : 'pro';
+            
+            state.user = {
+                name: "Ivan Hoarau",
+                role: role,
+                avatar: "https://randomuser.me/api/portraits/men/85.jpg",
+                isPremium: false
+            };
+            
+            finishAuth();
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            const role = document.querySelector('input[name="role"]:checked').value;
+            const name = document.getElementById('reg-name').value;
+            
+            state.user = {
+                name: name + " (Nouveau)",
+                role: role,
+                avatar: "https://www.w3schools.com/howto/img_avatar.png",
+                isPremium: false
+            };
+            finishAuth();
+        }
+
+        function finishAuth() {
+            closeModal('modal-auth');
+            updateNav();
+            showToast(`Ravi de vous revoir, ${state.user.name} !`);
+            
+            if(state.user.role === 'client') {
+                navigateTo('page-dashboard-client');
+            } else {
+                navigateTo('page-dashboard-pro');
+            }
+        }
+
+        function logout() {
+            state.user = null;
+            updateNav();
+            navigateTo('page-home');
+            showToast("Déconnexion réussie. À bientôt !", 'info');
+            // Reset premium banner style just in case
+            show('pro-upgrade-banner');
+        }
+
+        // --- PROFILE MANAGEMENT ---
+        function openProfileModal() { show('modal-profile'); }
+        
+        function updateAvatarPreview(event) {
+            const output = document.getElementById('preview-avatar-edit');
+            output.src = URL.createObjectURL(event.target.files[0]);
+            output.onload = function() { URL.revokeObjectURL(output.src) }
+        }
+
+        function saveProfile(e) {
+            e.preventDefault();
+            const newName = document.getElementById('profile-name-input').value;
+            const newPic = document.getElementById('preview-avatar-edit').src;
+            
+            state.user.name = newName;
+            state.user.avatar = newPic;
+            
+            updateNav();
+            closeModal('modal-profile');
+            showToast("Votre profil a été mis à jour.");
+        }
+
+        // --- JOB POSTING (CLIENT) ---
+        function openPostJobModal() { show('modal-post-job'); }
+        function submitJob(e) {
+            e.preventDefault();
+            closeModal('modal-post-job');
+            showToast("Votre demande est en ligne ! Les artisans vont la recevoir.");
+        }
+
+        // --- PRO FEATURES & PAYMENT ---
+        function openPaymentModal() { show('modal-payment'); }
+
+        function handleUnlockClick(leadId) {
+            if (state.user.isPremium) {
+                document.getElementById(`lead-locked-${leadId}`).classList.add('hidden');
+                const unlocked = document.getElementById(`lead-unlocked-${leadId}`);
+                unlocked.classList.remove('hidden');
+                unlocked.classList.add('flex');
+            } else {
+                openPaymentModal();
+            }
+        }
+
+        function processPayment(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const originalContent = btn.innerHTML;
+            
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin text-2xl"></i> Traitement sécurisé...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                state.user.isPremium = true;
+                updateNav();
+                closeModal('modal-payment');
+                
+                // Animation de disparition de la bannière
+                const banner = document.getElementById('pro-upgrade-banner');
+                banner.style.transition = 'all 0.5s ease';
+                banner.style.opacity = '0';
+                banner.style.transform = 'scale(0.95)';
+                setTimeout(() => hide('pro-upgrade-banner'), 500);
+
+                handleUnlockClick(1); 
+                
+                showToast("Félicitations ! Vous êtes maintenant membre Premium.");
+                
+                btn.innerHTML = originalContent;
+                btn.disabled = false;
+            }, 2500);
+        }
+    </script>
+</body>
+</html>
